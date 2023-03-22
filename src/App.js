@@ -7,6 +7,7 @@ import heroImg from './images/f1.png'
 import { Outlet } from 'react-router-dom';
 import Product from './Product';
 import ProductList from './ProductList';
+import { QueryClient, QueryClientProvider } from 'react-query';
 
 
 
@@ -26,19 +27,25 @@ function Hero() {
   )
 }
 
+const queryClient= new QueryClient()
+
 function App() {
 
   return (
+    <QueryClientProvider client={queryClient}>
+ 
 
     <div className="App">
       
       <Hero />
 
       <div className='w-full flex pt-10 bg-[#f8f1e9]'>
+
       <ProductList/>
       </div>
 
     </div>
+    </QueryClientProvider>
   );
 }
 
