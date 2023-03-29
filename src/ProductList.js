@@ -51,7 +51,7 @@ function Product({ name, url, brand, tags, rating }) {
           {tags.split(",").map((t) => {
             if (t) {
               return (
-                <div className="badge badge-outline bg-[#dabea1] border-0" key={t}>{t}</div>
+                <div className="badge badge-outline bg-[#dfccb8] border-0" key={t}>{t}</div>
               )
             }
             else { return "" }
@@ -100,7 +100,7 @@ function ProductList() {
   return (
     <div className="mx-auto flex flex-col">
       <div className="ml-auto mb-8">
-        <InputGroup color="accent" >
+        <InputGroup className=" mr-10" color="accent" >
           <Input className="bg-white" type="text" placeholder="Search product" bordered onChange={(e) => setQuery(e.target.value)} value={query} />
           <button className="btn btn-square bg-white text-black border-none border-l-2 hover:bg-[#ebdcca]">
             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>

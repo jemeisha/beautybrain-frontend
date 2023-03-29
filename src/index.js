@@ -11,32 +11,42 @@ import Home from './Home';
 import Product from './Product';
 import HeroBanner from './HeroBanner';
 import Recommender from './Recommender';
+import { QueryClient, QueryClientProvider } from 'react-query';
+import Result from './Result';
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <App/>,
+    element: <App />,
     children: [
       {
-        path:'/',
-        element:<HeroBanner/>
+        path: '/',
+        element: <HeroBanner />
       },
       {
-        path:'/quiz',
-        element:<Recommender/>
+        path: '/quiz',
+        element: <Recommender />
       }
     ]
   },
-    {
+  {
     path: "/product",
-    element: <Product/>,
+    element: <Product />,
   },
+  {
+    path: "/result",
+    element: <Result/>,
+  }
 ]);
+
+const queryClient = new QueryClient()
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <QueryClientProvider client={queryClient}>
+      <RouterProvider router={router} />
+    </QueryClientProvider>
   </React.StrictMode>
 );
 

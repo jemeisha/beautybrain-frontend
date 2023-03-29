@@ -20,7 +20,9 @@
     "react-query": "^3.39.3",
     "react-router-dom": "^6.9.0",
     "react-scripts": "5.0.1",
+    "react-spinners": "^0.13.8",
     "react-use": "^17.4.0",
+    "react-webcam": "^7.0.1",
     "tailwindcss": "^3.2.7",
     "twin.macro": "^3.1.0",
     "underscore": "^1.13.6",
@@ -28,7 +30,7 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "cross-env NODE_ENV=development run-p start:*",
+    "start": "cross-env BROWSER=chrome NODE_ENV=development run-p start:*",
     "start:react": "react-scripts start",
     "start:tailwind": "tailwindcss -w -c src/tailwind/tailwind.config.js -i src/tailwind/tailwind.css -o src/index.css",
     "tunnel": "npx localtunnel --port 3000"
