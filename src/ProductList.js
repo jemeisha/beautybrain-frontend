@@ -3,6 +3,7 @@ import { Input, InputGroup } from "react-daisyui";
 import { useQuery } from "react-query";
 import { useDebounce } from "use-debounce";
 import capitalize from "capitalize";
+import { chunk } from "underscore";
 
 const PRODUCTS = [
   {
@@ -27,21 +28,34 @@ const PRODUCTS = [
   }
 ]
 
-function Product({ name, url, brand }) {
+function Product({ name, url, brand, tags, rating }) {
   return (
     <div className="card w-72 bg-[#e7d9ca] shadow-xl overflow-hidden text-black">
       <div className="w-full h-52 bg-white">
-        <figure><img src={url} alt="Shoes" className="w-full h-52 object-contain" /></figure>
+        <figure><img src={url} alt="product" className="w-full h-52 object-contain" /></figure>
       </div>
       <div className="card-body p-2 px-3 pb-3 ">
         <h2 className="card-title">
           {capitalize.words(brand)}
-          <div className="badge badge-accent">Rating</div>
+         {rating &&  <div className="ml-auto flex flex-row">
+            <span className="text-sm text-[#52462b]">
+            {rating}/5
+            </span>
+            <div className="rating rating-sm ">
+              <input type="radio" name="rating-1" className="mask mask-star bg-primary" checked />
+            </div>
+          </div>}
         </h2>
         <p className="text-sm">{capitalize.words(name)}</p>
-        <div className="card-actions justify-end">
-          <div className="badge badge-outline">Fashion</div>
-          <div className="badge badge-outline">Products</div>
+        <div className="card-actions justify-end text-[#52462b]">
+          {tags.split(",").map((t) => {
+            if (t) {
+              return (
+                <div className="badge badge-outline bg-[#dabea1] border-0" key={t}>{t}</div>
+              )
+            }
+            else { return "" }
+          })}
         </div>
         <div className="flex flex-row">
 
@@ -66,12 +80,23 @@ function ProductList() {
     )
   )
   const [jsonData, setJsonData] = useState([])
+  const [pagesData, setPagesData] = useState([])
   useEffect(() => {
-    console.log(JSON.parse(data || "{}"))
     setJsonData(JSON.parse(data || "[]"))
-    // console.log(typeof data)
+    // console.log(jsonData)
+    // console.log(data)
   }, [data])
 
+  useEffect(() => {
+    setPagesData(chunk(jsonData, 15))
+    // console.log(pagesData)
+  }, [jsonData])
+
+  useEffect(() => {
+    console.log(pagesData)
+  }, [pagesData])
+
+  const [currentPage, setCurrentPage] = useState(0)
   return (
     <div className="mx-auto flex flex-col">
       <div className="ml-auto mb-8">
@@ -84,7 +109,7 @@ function ProductList() {
       </div>
       {isLoading && <div className="mx-auto">Searching the products...</div>}
 
-      {!isLoading && <div className="grid grid-cols-4 gap-10 mx-auto justify-around">
+      {!isLoading && <div className="grid grid-cols-3 gap-10 mx-auto justify-between">
 
         {/* {
           PRODUCTS.map((p) => {
@@ -92,17 +117,31 @@ function ProductList() {
           })
         } */}
         {
-          jsonData.slice(0, 10).map((product) => <Product name={product.name} url={product.img} brand={product.brand} />)
+          pagesData.length > 0 && pagesData[currentPage].map((product) => <Product key={product.id}
+            name={product.name}
+            url={product.img}
+            brand={product.brand}
+            tags={product.tags}
+            rating={product.rating}
+          />)
         }
 
       </div>}
       <div className="my-10 flex flex-row">
+
         <div className="btn-group mx-auto text-black">
-          <button className="btn bg-transparent border-0 hover:bg-[#ebdcca] text-black">1</button>
-          <button className="btn bg-transparent border-0 hover:bg-[#ebdcca] text-black">2</button>
-          <button className="btn btn-disabled bg-transparent border-0 hover:bg-[#ebdcca] text-black">...</button>
-          <button className="btn bg-transparent border-0 hover:bg-[#ebdcca] text-black">99</button>
-          <button className="btn bg-transparent border-0 hover:bg-[#ebdcca] text-black">100</button>
+          {/* {(currentPage>0) && } */}
+          <button className={`btn ${currentPage == 0 ? "btn-disabled" : ""} bg-transparent border-0 hover:bg-[#ebdcca] text-black`} onClick={() => {
+            if (currentPage > 0) {
+              setCurrentPage(currentPage - 1)
+            }
+          }}>«</button>
+          <button className="btn bg-transparent border-0 hover:bg-[#ebdcca] text-black">Page {currentPage + 1}</button>
+          <button className={`btn ${currentPage == (pagesData.length - 1) ? "btn-disabled" : ""} bg-transparent border-0 hover:bg-[#ebdcca] text-black`} onClick={() => {
+            if (currentPage < (pagesData.length - 1)) {
+              setCurrentPage(currentPage + 1)
+            }
+          }}>»</button>
         </div>
       </div>
     </div>
