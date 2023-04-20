@@ -13,6 +13,7 @@ import { Outlet } from 'react-router-dom';
 import Product from './Product';
 import ProductList from './ProductList';
 import Container from './Container';
+import TawkMessengerReact from '@tawk.to/tawk-messenger-react';
 
 
 
@@ -85,6 +86,12 @@ function App() {
   return (
 
       <div className="App">
+
+        <div className="App">
+            <TawkMessengerReact
+                propertyId="642a65954247f20fefe97611"
+                widgetId="1gt2ppko5"/>
+        </div>
 
         <Hero />
 

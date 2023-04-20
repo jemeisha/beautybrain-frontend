@@ -1,9 +1,11 @@
-import { useState } from "react"
+import { useContext, useState } from "react"
 import { Button } from "react-daisyui"
 import Question from "./Question"
 import WebCam from "./WebCam"
 import BeatLoader from "react-spinners/BeatLoader";
 import axios from 'axios';
+import { PredictContext } from "./Contexts";
+import { Navigate, useNavigate } from "react-router-dom";
 
 
 const QUESTIONS = [
@@ -119,10 +121,21 @@ const QUESTIONS = [
 
 function Recommender() {
   const [currentQuestion, setCurrentQuestion] = useState(0)
-  const [answers, setAnswers] = useState([])
+  // const [answers, setAnswers] = useState([])
+  const { 
+    answers,
+    setAnswers,
+    imgData,
+    setImgData,
+    output,
+    setOutput,
+    recommendedProducts,
+    setRecommendedProducts 
+  } = useContext(PredictContext)
+  const navigate=useNavigate()
   const [secondaryStep, setSecondaryStep] = useState(-1)
-  const [imgData, setImgData] = useState("")
-  const [output, setOutput] = useState(0)
+  // const [imgData, setImgData] = useState("")
+  // const [output, setOutput] = useState(0)
   /* 
   0= Makeup
   1= Skincare
@@ -192,8 +205,14 @@ function Recommender() {
                 answers: answers,
                 output: output,
                 imgData: imgData
+              },{
+                headers:{
+                  'Content-Type': 'application/json'
+                }
               })
               console.log(resp.data)
+              setRecommendedProducts(resp.data)
+              navigate("/result")
             }}>
               {!isSubmitting && " View Recommended Products"}
               {isSubmitting && <BeatLoader />}

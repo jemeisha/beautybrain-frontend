@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
@@ -13,6 +13,7 @@ import HeroBanner from './HeroBanner';
 import Recommender from './Recommender';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import Result from './Result';
+import { PredictContext } from './Contexts';
 
 const router = createBrowserRouter([
   {
@@ -35,18 +36,40 @@ const router = createBrowserRouter([
   },
   {
     path: "/result",
-    element: <Result/>,
+    element: <Result />,
   }
 ]);
 
+function Main({ children }) {
+
+const[answers,setAnswers]= useState([])
+const [imgData, setImgData] = useState("")
+const [output, setOutput] = useState(0)
+const [recommendedProducts, setRecommendedProducts] = useState([])
+
+  return <PredictContext.Provider value={{
+    answers,
+    setAnswers,
+    imgData,
+    setImgData,
+    output,
+    setOutput,
+    recommendedProducts,
+    setRecommendedProducts
+  }}>
+    {children}
+  </PredictContext.Provider>
+}
 const queryClient = new QueryClient()
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <QueryClientProvider client={queryClient}>
-      <RouterProvider router={router} />
-    </QueryClientProvider>
+    <Main>
+      <QueryClientProvider client={queryClient}>
+        <RouterProvider router={router} />
+      </QueryClientProvider>
+    </Main>
   </React.StrictMode>
 );
 
