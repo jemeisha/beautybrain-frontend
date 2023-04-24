@@ -1,11 +1,12 @@
-import { useContext, useState } from "react"
+import { useContext, useState, useCallback } from "react"
 import { Button } from "react-daisyui"
 import Question from "./Question"
 import WebCam from "./WebCam"
 import BeatLoader from "react-spinners/BeatLoader";
 import axios from 'axios';
 import { PredictContext } from "./Contexts";
-import { Navigate, useNavigate } from "react-router-dom";
+import { Navigate, json, useNavigate } from "react-router-dom";
+import { useDropzone } from 'react-dropzone';
 
 
 const QUESTIONS = [
@@ -119,10 +120,41 @@ const QUESTIONS = [
   }
 ]
 
+function arrayBufferToBase64( buffer ) {
+  var binary = '';
+  var bytes = new Uint8Array( buffer );
+  var len = bytes.byteLength;
+  for (var i = 0; i < len; i++) {
+      binary += String.fromCharCode( bytes[ i ] );
+  }
+  return window.btoa( binary );
+}
+
 function Recommender() {
   const [currentQuestion, setCurrentQuestion] = useState(0)
+  const onDrop = useCallback(acceptedFiles => {
+    // console.log(acceptedFiles)
+    const reader = new FileReader();
+    reader.readAsArrayBuffer(acceptedFiles[0]);
+    reader.onload = () => {
+     
+      // const bytes = new Uint8Array(reader.result);
+      // const base64 = btoa(String.fromCharCode.apply(null, bytes));
+      setImgData(arrayBufferToBase64(reader.result))
+      setSecondaryStep(1)
+    };
+  }, [])
+  const { acceptedFiles, getRootProps, getInputProps } = useDropzone({
+    onDrop,
+    maxFiles: 1,
+    multiple: false,
+    accept: {
+      'image/jpeg': [],
+      'image/png': []
+    }
+  });
   // const [answers, setAnswers] = useState([])
-  const { 
+  const {
     answers,
     setAnswers,
     imgData,
@@ -130,9 +162,9 @@ function Recommender() {
     output,
     setOutput,
     recommendedProducts,
-    setRecommendedProducts 
+    setRecommendedProducts
   } = useContext(PredictContext)
-  const navigate=useNavigate()
+  const navigate = useNavigate()
   const [secondaryStep, setSecondaryStep] = useState(-1)
   // const [imgData, setImgData] = useState("")
   // const [output, setOutput] = useState(0)
@@ -175,11 +207,21 @@ function Recommender() {
       {
         secondaryStep == 0 &&
         <>
-          <div className="mt-5">We need to capture your face for the recommendations</div>
-          <WebCam onCapture={(imageSrc) => {
-            setImgData(imageSrc)
-            setSecondaryStep(1)
-          }} />
+          <div className="my-3">We need to capture your face for the recommendations</div>
+
+
+          <div {...getRootProps({ className: 'dropzone border-2 border-accent border-dashed rounded-lg py-5 px-2' })} >
+            <input {...getInputProps()} />
+            <p className="text-center">Click here to upload your image</p>
+          </div>
+          <div className="divider">OR</div>
+          <div>
+            <WebCam onCapture={(imageSrc) => {
+              setImgData(imageSrc)
+              setSecondaryStep(1)
+            }} />
+          </div>
+
         </>
       }
 
@@ -205,13 +247,13 @@ function Recommender() {
                 answers: answers,
                 output: output,
                 imgData: imgData
-              },{
-                headers:{
+              }, {
+                headers: {
                   'Content-Type': 'application/json'
                 }
               })
-              console.log(resp.data)
-              setRecommendedProducts(resp.data)
+              // console.log(resp.data)
+              setRecommendedProducts(JSON.parse(resp.data))
               navigate("/result")
             }}>
               {!isSubmitting && " View Recommended Products"}

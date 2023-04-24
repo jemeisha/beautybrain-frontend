@@ -9,6 +9,11 @@ import { PredictContext } from "./Contexts"
 
 
 function ResultList({firstContent,secondContent}){
+   useEffect(()=>{
+    console.log("Is Array: ",Array.isArray(firstContent))
+    console.log("Is Array second: ",Array.isArray(secondContent))
+   }
+   ,[])
     return(
         <>
                <div className="grid grid-cols-5 gap-5 mx-auto justify-between">
@@ -60,12 +65,14 @@ function Result() {
     const [isMakeup,setIsMakeup]=useState(false)
 
     useEffect(() => {
-        if (data) {
+        console.log("Data ",Array.isArray(data))
+        if (data && Array.isArray(data)) {
+
             const arr = data
             const firstContent = arr.slice(0, 10)
             const secondContent = arr.slice(10, arr.length - 1)
-            console.log("fc ",firstContent)
-            console.log("sc ",secondContent)
+            // console.log("fc ",firstContent)
+            // console.log("sc ",secondContent)
             setFirstContent(firstContent)
             setSecondContent(secondContent)
         }
@@ -91,8 +98,8 @@ function Result() {
                     <span className={`tab tab-bordered ${isMakeup?'tab-active':""} text-black`} onClick={()=>setIsMakeup(true)}>Makeup</span>
                     <span className={`tab tab-bordered ${!isMakeup?'tab-active':""} text-black`} onClick={()=>setIsMakeup(false)}>Skincare</span>
                 </div>
-                {isMakeup && <ResultList firstContent={firstContent} secondContent={secondContent}/>}
-                {!isMakeup && <ResultList firstContent={firstContent} secondContent={secondContent}/>}
+                {firstContent && firstContent.length && isMakeup && <ResultList firstContent={firstContent} secondContent={secondContent}/>}
+                {firstContent && firstContent.length && !isMakeup && <ResultList firstContent={firstContent} secondContent={secondContent}/>}
  
             </Container>
 
