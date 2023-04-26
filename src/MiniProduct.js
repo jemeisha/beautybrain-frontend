@@ -20,7 +20,7 @@ function MiniProduct({ name, url, brand, tags, rating }) {
           </h2>
           <p className="text-xs">{capitalize.words(name)}</p>
           <div className="card-actions justify-end text-[#52462b]">
-            {tags.split(",").map((t) => {
+            {tags && tags.split(",").map((t) => {
               if (t) {
                 return (
                   <div className="badge badge-outline bg-[#dfccb8] border-0 text-xs px-1" key={t}>{t}</div>

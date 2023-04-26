@@ -26,12 +26,13 @@ function ProductList() {
   }, [data])
 
   useEffect(() => {
+    //console.log("Jsondata: ",jsonData)
     setPagesData(chunk(jsonData, 15))
     // console.log(pagesData)
   }, [jsonData])
 
   useEffect(() => {
-    console.log(pagesData)
+    //console.log(pagesData)
   }, [pagesData])
 
   const [currentPage, setCurrentPage] = useState(0)

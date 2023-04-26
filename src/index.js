@@ -14,6 +14,7 @@ import Recommender from './Recommender';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import Result from './Result';
 import { PredictContext } from './Contexts';
+import AboutUs from './AboutUs';
 
 const router = createBrowserRouter([
   {
@@ -37,7 +38,12 @@ const router = createBrowserRouter([
   {
     path: "/result",
     element: <Result />,
+  },
+  {
+    path: "/about",
+    element: <AboutUs />,
   }
+
 ]);
 
 function Main({ children }) {

@@ -8,17 +8,36 @@ import MiniProduct from "./MiniProduct"
 import { PredictContext } from "./Contexts"
 
 
-function ResultList({firstContent,secondContent}){
-   useEffect(()=>{
-    console.log("Is Array: ",Array.isArray(firstContent))
-    console.log("Is Array second: ",Array.isArray(secondContent))
-   }
-   ,[])
-    return(
+function ResultList({ firstContent, secondContent }) {
+    useEffect(() => {
+        console.log("Is Array: ", Array.isArray(firstContent))
+        console.log("Is Array second: ", Array.isArray(secondContent))
+    }
+        , [])
+    return (
         <>
-               <div className="grid grid-cols-5 gap-5 mx-auto justify-between">
+            <div className="grid grid-cols-5 gap-5 mx-auto justify-between">
+                {
+                    firstContent && firstContent.length && firstContent.map((product) => <MiniProduct
+
+                        id={product.id}
+                        brand={product.brand}
+                        name={product.name}
+                        url={product.img}
+                        tags={product.tags}
+                        rating={product.rating}
+                    />)
+                }
+
+            </div>
+            <div className="collapse w-full">
+                <input type="checkbox" />
+                <div className="collapse-title text-xl font-medium">
+                    Show more..
+                </div>
+                <div className="collapse-content grid grid-cols-5 gap-5 justify-between p-0">
                     {
-                        firstContent && firstContent.length && firstContent.map((product) => <MiniProduct
+                        secondContent && secondContent.length && secondContent.map((product) => <MiniProduct
 
                             id={product.id}
                             brand={product.brand}
@@ -28,27 +47,8 @@ function ResultList({firstContent,secondContent}){
                             rating={product.rating}
                         />)
                     }
-
                 </div>
-                <div className="collapse w-full">
-                    <input type="checkbox" />
-                    <div className="collapse-title text-xl font-medium">
-                        Show more..
-                    </div>
-                    <div className="collapse-content grid grid-cols-5 gap-5 justify-between p-0">
-                        {
-                            secondContent && secondContent.length && secondContent.map((product) => <MiniProduct
-
-                                id={product.id}
-                                brand={product.brand}
-                                name={product.name}
-                                url={product.img}
-                                tags={product.tags}
-                                rating={product.rating}
-                            />)
-                        }
-                    </div>
-                </div>
+            </div>
         </>
     )
 }
@@ -59,13 +59,17 @@ function Result() {
     //         res.json()
     //     )
     // )
-    const {recommendedProducts:data}=useContext(PredictContext)
+    const { 
+        recommendedProducts: data,
+        output:productOutput
+
+    } = useContext(PredictContext)
     const [firstContent, setFirstContent] = useState([])
     const [secondContent, setSecondContent] = useState([])
-    const [isMakeup,setIsMakeup]=useState(false)
+    const [isMakeup, setIsMakeup] = useState(false)
 
     useEffect(() => {
-        console.log("Data ",Array.isArray(data))
+        console.log("Data ", Array.isArray(data))
         if (data && Array.isArray(data)) {
 
             const arr = data
@@ -93,14 +97,16 @@ function Result() {
                     </div>
                 </div>
                 <div className="divider w-full border-black border-opacity-40 border-b-2 my-2"></div>
-                
-                <div className="tabs text-black mb-5">
-                    <span className={`tab tab-bordered ${isMakeup?'tab-active':""} text-black`} onClick={()=>setIsMakeup(true)}>Makeup</span>
-                    <span className={`tab tab-bordered ${!isMakeup?'tab-active':""} text-black`} onClick={()=>setIsMakeup(false)}>Skincare</span>
+               {productOutput==0 && <div className="text-xl text-black mb-5 ">Makeup products</div>}
+               {productOutput==1 && <div className="text-xl text-black mb-5 ">Skincare products</div>}
+               { productOutput==2 && <div className="tabs text-black mb-5">
+                    <span className={`tab tab-bordered ${isMakeup ? 'tab-active' : ""} text-black`} onClick={() => setIsMakeup(true)}>Makeup</span>
+                    <span className={`tab tab-bordered ${!isMakeup ? 'tab-active' : ""} text-black`} onClick={() => setIsMakeup(false)}>Skincare</span>
                 </div>
-                {firstContent && firstContent.length && isMakeup && <ResultList firstContent={firstContent} secondContent={secondContent}/>}
-                {firstContent && firstContent.length && !isMakeup && <ResultList firstContent={firstContent} secondContent={secondContent}/>}
- 
+                }
+                {firstContent && firstContent.length && isMakeup && <ResultList firstContent={firstContent} secondContent={secondContent} />}
+                {firstContent && firstContent.length && !isMakeup && <ResultList firstContent={firstContent} secondContent={secondContent} />}
+
             </Container>
 
         </div>
