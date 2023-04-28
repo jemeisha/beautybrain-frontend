@@ -16,6 +16,7 @@ import Result from './Result';
 import { PredictContext } from './Contexts';
 import AboutUs from './AboutUs';
 import ProductPage from './ProductPage';
+import ContactUs from './ContactUs';
 
 const router = createBrowserRouter([
   {
@@ -43,6 +44,10 @@ const router = createBrowserRouter([
   {
     path: "/about",
     element: <AboutUs />,
+  },
+  {
+    path: "/contact",
+    element: <ContactUs />,
   }
 
 ]);

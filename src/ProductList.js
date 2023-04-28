@@ -5,6 +5,7 @@ import { useDebounce } from "use-debounce";
 import capitalize from "capitalize";
 import { chunk } from "underscore";
 import Product from "./Product";
+import axios from "axios";
 
 
 
@@ -20,15 +21,15 @@ function ProductList() {
     setProductConcern(e.target.value)
   }
   const [debouncedQuery] = useDebounce(query, 800)
-  const { isLoading, error, data } = useQuery(['productSearch', debouncedQuery,productCategory,productConcern], (data) =>
-    fetch(`http://127.0.0.1:8000/search/${debouncedQuery == "" ? "all_products" : debouncedQuery}`,{
+  const { isLoading, error, data } = useQuery(['productSearch', debouncedQuery,productCategory,productConcern], async (data) =>{
+    const res=await axios(`http://127.0.0.1:8000/search/${debouncedQuery == "" ? "all_products" : debouncedQuery}`,{
       params:{
            category:productCategory,
            concern:productConcern
       }
-    }).then(res =>
-      res.json()
-    )
+    })
+    return res.data
+  }
   )
   const [jsonData, setJsonData] = useState([])
   const [pagesData, setPagesData] = useState([])
@@ -63,7 +64,7 @@ function ProductList() {
         </InputGroup>
       </div>
       <div className="flex flex-row mb-5">
-        <select className="select ml-3" onChange={handleProductCategoryChange}>
+        <select className="select bg-white text-black" onChange={handleProductCategoryChange}>
          
           <option value="all" selected > All</option>
           <option value="face-moisturisers">Face Moisturisers</option>
@@ -76,7 +77,7 @@ function ProductList() {
         </select>
         
 
-        <select className="select ml-3" onChange={handleProductConcernChange}>
+        <select className="select ml-3 bg-white text-black" onChange={handleProductConcernChange}>
           
           <option value="all" selected> All</option>
           <option value="Acne and Blemishes">Acne and Blemishes</option>
@@ -91,7 +92,7 @@ function ProductList() {
 
       {isLoading && <div className="mx-auto">Searching the products...</div>}
 
-      {!isLoading && <div className="grid grid-cols-3 gap-10 mx-auto justify-between">
+      {!isLoading && <div className="grid grid-cols-3 gap-10 justify-between">
 
         {/* {
           PRODUCTS.map((p) => {
@@ -99,7 +100,9 @@ function ProductList() {
           })
         } */}
         {
-          pagesData.length > 0 && pagesData[currentPage].map((product) => <Product key={product.id}
+          pagesData.length > 0 && pagesData[currentPage].map((product) => <Product 
+            key={product.id}
+            id={product.id}
             name={product.name}
             url={product.img}
             brand={product.brand}

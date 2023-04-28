@@ -1,20 +1,21 @@
 import capitalize from "capitalize";
 
-function MiniProduct({ name, url, brand, tags, rating }) {
+function MiniProduct({ id,name, url, brand, tags, rating }) {
     return (
-      <div className="card w-42 bg-[#e7d9ca] shadow-xl overflow-hidden text-black">
+     <a href={`http://localhost:3000/product?id=${id}`}>
+       <div className="card w-42 bg-[#e7d9ca] shadow-xl overflow-hidden text-black hover:scale-105">
         <div className="w-full h-52 bg-white">
           <figure><img src={url} alt="product" className="w-full h-52 object-contain" /></figure>
         </div>
         <div className="card-body p-2 px-3 pb-3 ">
           <h2 className="card-title text-sm">
             {capitalize.words(brand)}
-           {rating &&  <div className="ml-auto flex flex-row">
+           {rating && rating.trim().length>0 && <div className="ml-auto flex flex-row">
               <span className="text-xs text-[#52462b]">
               {rating}/5
               </span>
               <div className="rating rating-sm h-[0.8rem] w-[0.8rem] ">
-                <input type="radio" name="rating-1" className="mask mask-star bg-primary" checked />
+                <input type="radio" name="rating-1" className="mask mask-star bg-primary" checked onChange={()=>{}} />
               </div>
             </div>}
           </h2>
@@ -37,6 +38,7 @@ function MiniProduct({ name, url, brand, tags, rating }) {
           </div>
         </div>
       </div>
+     </a>
       // <div className="flex flex-col hover:scale-105 cursor-pointer">
       //   <img src={url} className="w-52 h-52 rounded-lg" />
       //   <div className="mx-auto text-[#1D201F]">{name}</div>
