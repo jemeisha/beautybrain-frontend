@@ -54,6 +54,7 @@ function InstructionCard({ src, text }) {
 
 }
 
+
 function Instructions() {
   return (
     <div className='grid grid-cols-4 mb-10'>

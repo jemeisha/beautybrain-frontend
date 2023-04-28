@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Input, InputGroup } from "react-daisyui";
+import { Dropdown, Input, InputGroup } from "react-daisyui";
 import { useQuery } from "react-query";
 import { useDebounce } from "use-debounce";
 import capitalize from "capitalize";
@@ -11,9 +11,22 @@ import Product from "./Product";
 
 function ProductList() {
   const [query, setQuery] = useState("")
+  const [productCategory, setProductCategory] = useState("all")
+  const handleProductCategoryChange = (e) => {
+    setProductCategory(e.target.value)
+  }
+  const [productConcern, setProductConcern] = useState("all")
+  const handleProductConcernChange = (e) => {
+    setProductConcern(e.target.value)
+  }
   const [debouncedQuery] = useDebounce(query, 800)
-  const { isLoading, error, data } = useQuery(['productSearch', debouncedQuery], (data) =>
-    fetch(`http://127.0.0.1:8000/search/${debouncedQuery == "" ? "all_products" : debouncedQuery}`).then(res =>
+  const { isLoading, error, data } = useQuery(['productSearch', debouncedQuery,productCategory,productConcern], (data) =>
+    fetch(`http://127.0.0.1:8000/search/${debouncedQuery == "" ? "all_products" : debouncedQuery}`,{
+      params:{
+           category:productCategory,
+           concern:productConcern
+      }
+    }).then(res =>
       res.json()
     )
   )
@@ -35,7 +48,10 @@ function ProductList() {
     //console.log(pagesData)
   }, [pagesData])
 
+
   const [currentPage, setCurrentPage] = useState(0)
+
+
   return (
     <div className="mx-auto flex flex-col">
       <div className="ml-auto mb-8">
@@ -46,6 +62,33 @@ function ProductList() {
           </button>
         </InputGroup>
       </div>
+      <div className="flex flex-row mb-5">
+        <select className="select ml-3" onChange={handleProductCategoryChange}>
+         
+          <option value="all" selected > All</option>
+          <option value="face-moisturisers">Face Moisturisers</option>
+          <option value="cleanser">Cleanser</option>
+          <option value="mask-and-peel">Mask-and-Peel</option>
+          <option value="eye-cream">Eye-cream</option>
+          <option value="primer">Primer</option>
+          <option value="foundation">Foundation</option>
+          <option value="concealer">Concealer</option>
+        </select>
+        
+
+        <select className="select ml-3" onChange={handleProductConcernChange}>
+          
+          <option value="all" selected> All</option>
+          <option value="Acne and Blemishes">Acne and Blemishes</option>
+          <option value="Uneven Skin Tone">Uneven Skin Tone</option>
+          <option value="Finelines and Wrinkles">Finelines and Wrinkles</option>
+          <option value="Dark circles">Dark Circles</option>
+          <option value="Pore Minimizing and Blurring">Pore Minimizing and Blurring</option>
+          
+        </select>
+     
+      </div>
+
       {isLoading && <div className="mx-auto">Searching the products...</div>}
 
       {!isLoading && <div className="grid grid-cols-3 gap-10 mx-auto justify-between">

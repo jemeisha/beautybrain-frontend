@@ -9,9 +9,10 @@ import { PredictContext } from "./Contexts"
 
 
 function ResultList({ firstContent, secondContent }) {
+    const [isShown, setIsShown] = useState(false)
     useEffect(() => {
-        console.log("Is Array: ", Array.isArray(firstContent))
-        console.log("Is Array second: ", Array.isArray(secondContent))
+        // console.log("Is Array: ", Array.isArray(firstContent))
+        // console.log("Is Array second: ", Array.isArray(secondContent))
     }
         , [])
     return (
@@ -31,10 +32,10 @@ function ResultList({ firstContent, secondContent }) {
 
             </div>
             <div className="collapse w-full">
-                <input type="checkbox" />
-                <div className="collapse-title text-xl font-medium">
+                <input type="checkbox" onChange={() => setIsShown(true)} />
+                {!isShown && <div className="collapse-title text-xl font-medium">
                     Show more..
-                </div>
+                </div>}
                 <div className="collapse-content grid grid-cols-5 gap-5 justify-between p-0">
                     {
                         secondContent && secondContent.length && secondContent.map((product) => <MiniProduct
@@ -59,17 +60,52 @@ function Result() {
     //         res.json()
     //     )
     // )
-    const { 
-        recommendedProducts: data,
-        output:productOutput
+    const {
+        recommendedProducts,
+        answerBasedProducts,
+        output: productOutput
 
     } = useContext(PredictContext)
     const [firstContent, setFirstContent] = useState([])
     const [secondContent, setSecondContent] = useState([])
-    const [isMakeup, setIsMakeup] = useState(false)
+    const [isMakeup, setIsMakeup] = useState(true)
+    const [isAnswers, setIsAnswers] = useState(false)
+    const [data, setData] = useState(recommendedProducts)
+    const [makeupData, setMakeupData] = useState(recommendedProducts)
+    const [skincareData, setSkincareData] = useState(recommendedProducts)
 
     useEffect(() => {
-        console.log("Data ", Array.isArray(data))
+        console.log(data)
+        console.log("ProductOut", productOutput)
+
+
+    }, [data])
+    useEffect(() => {
+        if (isAnswers) {
+
+            if (productOutput === "2") {
+                const product_type = isMakeup ? "makeup" : "skincare"
+                setData(answerBasedProducts.filter((x) => x["product_type"] === product_type))
+            }
+            else {
+                setData(answerBasedProducts)
+            }
+        }
+        else {
+            if (productOutput === "2") {
+
+                const product_type = isMakeup ? "makeup" : "skincare"
+                setData(recommendedProducts.filter((x) => x["product_type"] === product_type))
+            }
+            else {
+                setData(recommendedProducts)
+            }
+        }
+
+    }, [isAnswers, isMakeup, recommendedProducts, answerBasedProducts])
+
+    useEffect(() => {
+        // console.log("Data ", Array.isArray(data))
         if (data && Array.isArray(data)) {
 
             const arr = data
@@ -96,10 +132,16 @@ function Result() {
                         <img src={mainLogo} className="h-36 aspect-square" />
                     </div>
                 </div>
-                <div className="divider w-full border-black border-opacity-40 border-b-2 my-2"></div>
-               {productOutput==0 && <div className="text-xl text-black mb-5 ">Makeup products</div>}
-               {productOutput==1 && <div className="text-xl text-black mb-5 ">Skincare products</div>}
-               { productOutput==2 && <div className="tabs text-black mb-5">
+                <div className="w-full flex flex-row ">
+                    <div className="tabs text-black ml-auto">
+                        <span className={`tab tab-bordered ${!isAnswers ? 'tab-active' : ""} text-black`} onClick={() => setIsAnswers(false)}>AI recommendations</span>
+                        <span className={`tab tab-bordered ${isAnswers ? 'tab-active' : ""} text-black`} onClick={() => setIsAnswers(true)}>Answer based recommendations</span>
+                    </div>
+                </div>
+                <div className="divider w-full border-black border-opacity-40 border-b-2 md-2"></div>
+                {productOutput == 0 && <div className="text-xl text-black mb-5 ">Makeup products({data.length})</div>}
+                {productOutput == 1 && <div className="text-xl text-black mb-5 ">Skincare products({data.length})</div>}
+                {productOutput == 2 && <div className="tabs text-black mb-5">
                     <span className={`tab tab-bordered ${isMakeup ? 'tab-active' : ""} text-black`} onClick={() => setIsMakeup(true)}>Makeup</span>
                     <span className={`tab tab-bordered ${!isMakeup ? 'tab-active' : ""} text-black`} onClick={() => setIsMakeup(false)}>Skincare</span>
                 </div>

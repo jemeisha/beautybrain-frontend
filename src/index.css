@@ -7238,11 +7238,6 @@ html {
   margin-bottom: 2.5rem;
 }
 
-.my-2 {
-  margin-top: 0.5rem;
-  margin-bottom: 0.5rem;
-}
-
 .my-3 {
   margin-top: 0.75rem;
   margin-bottom: 0.75rem;
@@ -7268,6 +7263,10 @@ html {
   margin-right: 2.5rem;
 }
 
+.mr-3 {
+  margin-right: 0.75rem;
+}
+
 .mt-10 {
   margin-top: 2.5rem;
 }
@@ -7290,6 +7289,14 @@ html {
 
 .mt-5 {
   margin-top: 1.25rem;
+}
+
+.ml-2 {
+  margin-left: 0.5rem;
+}
+
+.ml-3 {
+  margin-left: 0.75rem;
 }
 
 .block {

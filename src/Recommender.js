@@ -41,7 +41,7 @@ const QUESTIONS = [
         text: "Acne"
       },
       {
-        value: "dark-spots",
+        value: "dark spots",
         text: "Dark-Spots"
       },
       {
@@ -105,7 +105,7 @@ const QUESTIONS = [
     type: "option",
     options: [
       {
-        value: "breakouts",
+        value: "acne",
         text: "Breakouts"
       },
       {
@@ -162,7 +162,8 @@ function Recommender() {
     output,
     setOutput,
     recommendedProducts,
-    setRecommendedProducts
+    setRecommendedProducts,
+    setAnswerBasedProducts
   } = useContext(PredictContext)
   const navigate = useNavigate()
   const [secondaryStep, setSecondaryStep] = useState(-1)
@@ -253,7 +254,9 @@ function Recommender() {
                 }
               })
               // console.log(resp.data)
-              setRecommendedProducts(JSON.parse(resp.data))
+              const data=JSON.parse(resp.data)
+              setRecommendedProducts(data.recommendedProducts)
+              setAnswerBasedProducts(data.answerBasedProducts)
               navigate("/result")
             }}>
               {!isSubmitting && " View Recommended Products"}

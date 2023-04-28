@@ -15,6 +15,7 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 import Result from './Result';
 import { PredictContext } from './Contexts';
 import AboutUs from './AboutUs';
+import ProductPage from './ProductPage';
 
 const router = createBrowserRouter([
   {
@@ -33,7 +34,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/product",
-    element: <Product />,
+    element: <ProductPage/>,
   },
   {
     path: "/result",
@@ -52,6 +53,7 @@ const[answers,setAnswers]= useState([])
 const [imgData, setImgData] = useState("")
 const [output, setOutput] = useState(0)
 const [recommendedProducts, setRecommendedProducts] = useState([])
+const [answerBasedProducts, setAnswerBasedProducts] = useState([])
 
   return <PredictContext.Provider value={{
     answers,
@@ -61,7 +63,9 @@ const [recommendedProducts, setRecommendedProducts] = useState([])
     output,
     setOutput,
     recommendedProducts,
-    setRecommendedProducts
+    setRecommendedProducts,
+    answerBasedProducts,
+    setAnswerBasedProducts
   }}>
     {children}
   </PredictContext.Provider>
