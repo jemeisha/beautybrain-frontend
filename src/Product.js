@@ -7,7 +7,7 @@ function Product({ id,name, url, brand, tags, rating }) {
         <div className="w-full h-52 bg-white">
           <figure><img src={url} alt="product" className="w-full h-52 object-contain" /></figure>
         </div>
-        <div className="card-body p-2 px-3 pb-3 ">
+        <div className="card-body p-2 px-3 pb-3 h-36 ">
           <h2 className="card-title">
             {capitalize.words(brand)}
             {rating && rating.trim().length > 0 && <div className="ml-auto flex flex-row">

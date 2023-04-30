@@ -9,10 +9,8 @@ function NavBar() {
             <Link to={"/"} className="btn btn-ghost normal-case text-xl">BeautyBrain</Link>
             
             <Link to={"/about"} className='ml-auto mr-3'>About Us</Link>
-            <div className="form-control ">
-                
-                <input type="text" placeholder="Search" className="input input-bordered" />
-            </div>
+            <Link to={"/contact"} className='ml-3'>Contact Us</Link>
+            
         </div>
     )
 }

@@ -4,6 +4,7 @@ import NavBar from "./NavBar";
 import Footer from "./Footer";
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 
 
@@ -33,29 +34,24 @@ const ContactUs = () => {
                     <div class="left-side">
                         <div class="address details">
                             <i class="fas fa-map-marker-alt"></i>
-                            <div class="topic">Address</div>
-                            <div class="text-one">Surkhet, NP12</div>
-                            <div class="text-two">Birendranagar 06</div>
+                            <div className="mt-5">Address</div>
+                            <div className="ml-10">BeautyBrain Ltd</div>
+                            <div className="ml-10">Kelaniya.</div>
                         </div>
                         <div class="phone details">
                             <i class="fas fa-phone-alt"></i>
-                            <div class="topic">Phone</div>
-                            <div class="text-one">+0098 9893 5647</div>
-                            <div class="text-two">+0096 3434 5678</div>
+                            <div className="">Phone</div>
+                            <div className="ml-10">+94 76 562 5184</div>
+                            <div className="ml-10">+94 77 789 3784</div>
                         </div>
                         <div class="email details">
                             <i class="fas fa-envelope"></i>
                             <div class="topic">Email</div>
-                            <div class="text-one">codinglab@gmail.com</div>
-                            <div class="text-two">info.codinglab@gmail.com</div>
+                            <div className="ml-10">beautybrain2023@gmail.com</div>
+                            
                         </div>
                     </div>
-                    <p className="text-2xl mt-5 italic">OUR VISION</p>
-                    <p className="text-lg mt-5 mb-5"> Beauty is not about conforming to society's standards, but about celebrating diversity and individuality.</p>
-                    <p className="text-2xl mt-5 italic">OUR MISSION</p>
-                    <p className="text-lg mt-5 mb-10"> To provide a personalized and efficient way of shopping for makeup and skincare products by utilizing the latest technologies, including Artificial Intelligence (AI). </p>
-
-
+                    
                 </div>
             </div>
             <Footer />

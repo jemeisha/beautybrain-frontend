@@ -59,7 +59,7 @@ function ProductPage() {
                         <p className="text-3xl mt-10 mb-5">{product.brand && capitalize(product.brand)}</p>
                         <p className="text-lg">{product.name && capitalize(product.name)}</p>
                     </div>
-                    {product.rating && product.rating.trim().length > 0 && <span className="text-sm text-[#52462b] border border-1 border-[#c2b596]">Rating: {product.rating}/5
+                    {product.rating && product.rating.trim().length > 0 && <span className="text-sm text-[#52462b] ">Rating: {product.rating}/5
                         <div className="rating rating-sm ml-1 ">
                             <input type="radio" name="rating-1" className="mask mask-star bg-primary" checked />
                         </div>

@@ -7243,11 +7243,6 @@ html {
   margin-bottom: 0.75rem;
 }
 
-.mx-3 {
-  margin-left: 0.75rem;
-  margin-right: 0.75rem;
-}
-
 .mb-10 {
   margin-bottom: 2.5rem;
 }
@@ -7262,6 +7257,10 @@ html {
 
 .ml-1 {
   margin-left: 0.25rem;
+}
+
+.ml-10 {
+  margin-left: 2.5rem;
 }
 
 .ml-3 {
@@ -7434,6 +7433,22 @@ html {
 
 .h-full {
   height: 100%;
+}
+
+.h-20 {
+  height: 5rem;
+}
+
+.h-5 {
+  height: 1.25rem;
+}
+
+.h-40 {
+  height: 10rem;
+}
+
+.h-3 {
+  height: 0.75rem;
 }
 
 .w-1\/2 {
@@ -7749,11 +7764,6 @@ html {
   border-style: none;
 }
 
-.border-\[\#c2b596\] {
-  --tw-border-opacity: 1;
-  border-color: rgb(194 181 150 / var(--tw-border-opacity));
-}
-
 .border-accent {
   --tw-border-opacity: 1;
   border-color: hsl(var(--a) / var(--tw-border-opacity));
@@ -7790,11 +7800,6 @@ html {
 .bg-\[\#e7d9ca\] {
   --tw-bg-opacity: 1;
   background-color: rgb(231 217 202 / var(--tw-bg-opacity));
-}
-
-.bg-\[\#ebdcca\] {
-  --tw-bg-opacity: 1;
-  background-color: rgb(235 220 202 / var(--tw-bg-opacity));
 }
 
 .bg-\[\#f8f1e9\] {
@@ -7908,16 +7913,16 @@ html {
   padding-bottom: 2.5rem;
 }
 
+.pb-2 {
+  padding-bottom: 0.5rem;
+}
+
 .pb-3 {
   padding-bottom: 0.75rem;
 }
 
 .pt-10 {
   padding-top: 2.5rem;
-}
-
-.pb-2 {
-  padding-bottom: 0.5rem;
 }
 
 .text-left {
