@@ -163,10 +163,12 @@ function Recommender() {
     setOutput,
     recommendedProducts,
     setRecommendedProducts,
-    setAnswerBasedProducts
+    setAnswerBasedProducts,
+    setAcneBasedProducts,
   } = useContext(PredictContext)
   const navigate = useNavigate()
   const [secondaryStep, setSecondaryStep] = useState(-1)
+  const [errorMessage, setErrorMessage] = useState()
   // const [imgData, setImgData] = useState("")
   // const [output, setOutput] = useState(0)
   /* 
@@ -189,19 +191,28 @@ function Recommender() {
             placeHolder={QUESTIONS[currentQuestion].placeHolder}
             options={QUESTIONS[currentQuestion].options}
             onNext={() => {
+              console.log("Answer current Question ",answers[currentQuestion])
+              if ((answers[currentQuestion])===undefined){
+                console.log("Error if")
+                setErrorMessage(true)
+                return 
+              }
               if (currentQuestion == QUESTIONS.length - 1) {
                 setSecondaryStep(0)
+                setErrorMessage(false)
 
               } else {
                 setCurrentQuestion(currentQuestion + 1)
+                setErrorMessage(false)
               }
-
+             
             }}
             onChange={(e) => {
               const x = [...answers]
               x[currentQuestion] = e.target.value
               setAnswers(x)
             }} />
+            {errorMessage && <div className="text-red-500 text-sm">Please select an answer</div>}
         </>
       }
 
@@ -257,6 +268,9 @@ function Recommender() {
               const data=JSON.parse(resp.data)
               setRecommendedProducts(data.recommendedProducts)
               setAnswerBasedProducts(data.answerBasedProducts)
+              setAcneBasedProducts(data.acneBasedProducts)
+              console.log("Acne products", data.acneBasedProducts)
+
               navigate("/result")
             }}>
               {!isSubmitting && " View Recommended Products"}

@@ -59,6 +59,7 @@ const [imgData, setImgData] = useState("")
 const [output, setOutput] = useState(0)
 const [recommendedProducts, setRecommendedProducts] = useState([])
 const [answerBasedProducts, setAnswerBasedProducts] = useState([])
+const [acneBasedProducts, setAcneBasedProducts] = useState([])
 
   return <PredictContext.Provider value={{
     answers,
@@ -70,7 +71,9 @@ const [answerBasedProducts, setAnswerBasedProducts] = useState([])
     recommendedProducts,
     setRecommendedProducts,
     answerBasedProducts,
-    setAnswerBasedProducts
+    setAnswerBasedProducts,
+    acneBasedProducts,
+    setAcneBasedProducts
   }}>
     {children}
   </PredictContext.Provider>
@@ -88,7 +91,4 @@ root.render(
   </React.StrictMode>
 );
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();

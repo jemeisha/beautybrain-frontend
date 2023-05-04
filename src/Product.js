@@ -1,8 +1,9 @@
 import capitalize from "capitalize";
+import { Link } from "react-router-dom";
 
 function Product({ id,name, url, brand, tags, rating }) {
   return (
-    <a href={`http://localhost:3000/product?id=${id}`}>
+    <Link to={`http://localhost:3000/product?id=${id}`}>
       <div className="card w-72 bg-[#e7d9ca] shadow-xl overflow-hidden text-black hover:scale-105">
         <div className="w-full h-52 bg-white">
           <figure><img src={url} alt="product" className="w-full h-52 object-contain" /></figure>
@@ -38,7 +39,7 @@ function Product({ id,name, url, brand, tags, rating }) {
           </div>
         </div>
       </div>
-    </a>
+    </Link>
     // <div className="flex flex-col hover:scale-105 cursor-pointer">
     //   <img src={url} className="w-52 h-52 rounded-lg" />
     //   <div className="mx-auto text-[#1D201F]">{name}</div>

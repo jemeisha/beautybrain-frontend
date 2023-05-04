@@ -4,23 +4,24 @@ import NavBar from "./NavBar"
 import Footer from "./Footer"
 import { useQuery } from "react-query"
 import axios from "axios"
-import { useSearchParams } from "react-router-dom"
+import { useSearchParams,useNavigate } from "react-router-dom"
 import { useEffect, useState } from "react"
 import capitalize from "capitalize"
+import { Button } from "react-daisyui"
 
-function Field({ name, value,cap }) {
-   if (value){
-    return (
-        <div className="flex flex-col border-b-2 border-solid border-opacity-20 mr-3 pb-2">
-            <div className="text-thin text-xs">
-                {name}
+function Field({ name, value, cap }) {
+    if (value) {
+        return (
+            <div className="flex flex-col border-b-2 border-solid border-opacity-20 mr-3 pb-2">
+                <div className="text-thin text-xs">
+                    {name}
+                </div>
+                <div className="font-bold ">
+                    {cap ? capitalize(value) : value}
+                </div>
             </div>
-            <div className="font-bold ">
-                {cap?capitalize(value):value}
-            </div>
-        </div>
-    )
-   }
+        )
+    }
 
 }
 
@@ -46,10 +47,13 @@ function ProductPage() {
             }
         }
     }, [data])
-
+    const navigate=useNavigate()
     return (
         <div className='flex flex-col w-full bg-white'>
             <NavBar />
+            <div>
+                <Button onClick={() => navigate("/result")} className="bg-transparent mt-5 border-0 text-gray-800 hover:bg-transparent"> {"<<"} Back </Button>
+            </div>
             <Container className='flex flex-row mt-10'>
                 <div className="w-1/2 bg-white justify-center">
                     <img src={product.img} alt="product" className="w-full rounded-xl " />
@@ -68,77 +72,77 @@ function ProductPage() {
                     <hr className="border-black mt-5 border-opacity-20"></hr>
                     <div className="text-black">
                         <p className="text-xl mt-5">PRODUCT DETAILS</p>
-                        
+
                         <div className="grid grid-cols-2 gap-3 mt-5">
                             {[
                                 {
-                                    name:"Product Type",
-                                    key:"label",
-                                    cap:true
-                                },  
-                                {
-                                    name:"Skin Type",
-                                    key:"skin_type",
-                                    cap:true
+                                    name: "Product Type",
+                                    key: "label",
+                                    cap: true
                                 },
                                 {
-                                    name:"Concern",
-                                    key:"concern",
-                                    cap:true
+                                    name: "Skin Type",
+                                    key: "skin_type",
+                                    cap: true
                                 },
                                 {
-                                    name:"Concern 1",
-                                    key:"concern2",
-                                    cap:true
+                                    name: "Concern",
+                                    key: "concern",
+                                    cap: true
                                 },
                                 {
-                                    name:"Concern 2",
-                                    key:"concern3",
-                                    cap:true
+                                    name: "Concern 1",
+                                    key: "concern2",
+                                    cap: true
                                 },
                                 {
-                                    name:"Key Ingredient",
-                                    key:"key_ingredient",
-                                    cap:true
+                                    name: "Concern 2",
+                                    key: "concern3",
+                                    cap: true
                                 },
                                 {
-                                    name:"Fomulation",
-                                    key:"fomula",
-                                    cap:true
+                                    name: "Key Ingredient",
+                                    key: "key_ingredient",
+                                    cap: true
                                 },
                                 {
-                                    name:"Fomulation",
-                                    key:"formulation",
-                                    cap:true
+                                    name: "Fomulation",
+                                    key: "fomula",
+                                    cap: true
                                 },
                                 {
-                                    name:"Shade",
-                                    key:"shade",
-                                    cap:true
+                                    name: "Fomulation",
+                                    key: "formulation",
+                                    cap: true
                                 },
                                 {
-                                    name:"Finish",
-                                    key:"finish",
-                                    cap:true
+                                    name: "Shade",
+                                    key: "shade",
+                                    cap: true
                                 },
                                 {
-                                    name:"Coverage",
-                                    key:"coverage",
-                                    cap:true
+                                    name: "Finish",
+                                    key: "finish",
+                                    cap: true
                                 },
                                 {
-                                    name:"Skin Tone",
-                                    key:"skin tone",
-                                    cap:true
+                                    name: "Coverage",
+                                    key: "coverage",
+                                    cap: true
                                 },
-                            ].map((x)=><Field name={x.name} value={product[x.key]} cap={x.cap}/>)}
+                                {
+                                    name: "Skin Tone",
+                                    key: "skin tone",
+                                    cap: true
+                                },
+                            ].map((x) => <Field name={x.name} value={product[x.key]} cap={x.cap} />)}
                         </div>
 
                     </div>
 
                 </div>
             </Container>
-            <Footer/>
+            <Footer />
         </div>
     )
 }

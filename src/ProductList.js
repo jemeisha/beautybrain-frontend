@@ -17,15 +17,16 @@ function ProductList() {
     setProductCategory(e.target.value)
   }
   const [productConcern, setProductConcern] = useState("all")
+  const [errorMessage, setErrorMessage] = useState()
   const handleProductConcernChange = (e) => {
     setProductConcern(e.target.value)
   }
   const [debouncedQuery] = useDebounce(query, 800)
-  const { isLoading, error, data } = useQuery(['productSearch', debouncedQuery,productCategory,productConcern], async (data) =>{
-    const res=await axios(`http://127.0.0.1:8000/search/${debouncedQuery == "" ? "all_products" : debouncedQuery}`,{
-      params:{
-           category:productCategory,
-           concern:productConcern
+  const { isLoading, error, data } = useQuery(['productSearch', debouncedQuery, productCategory, productConcern], async (data) => {
+    const res = await axios(`http://127.0.0.1:8000/search/${debouncedQuery == "" ? "all_products" : debouncedQuery}`, {
+      params: {
+        category: productCategory,
+        concern: productConcern
       }
     })
     return res.data
@@ -57,15 +58,21 @@ function ProductList() {
     <div className="mx-auto flex flex-col">
       <div className="ml-auto mb-8">
         <InputGroup className=" mr-10" color="accent" >
-          <Input className="bg-white" type="text" placeholder="Search product" bordered onChange={(e) => setQuery(e.target.value)} value={query} />
-          <button className="btn btn-square bg-white text-black border-none border-l-2 hover:bg-[#ebdcca]">
+          <Input className="bg-white" type="text" placeholder="Search product" bordered onChange={(e) => {
+            setQuery(e.target.value)
+            if (e.target.value) {
+              setErrorMessage(false)
+            }
+          }} value={query} />
+          <div className="btn btn-square bg-white text-black border-none border-l-2 hover:bg-white" >
             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
-          </button>
+          </div>
         </InputGroup>
+        {errorMessage && <div className="text-red-800 text-sm ">Invalid Search!</div>}
       </div>
       <div className="flex flex-row mb-5">
         <select className="select bg-white text-black" onChange={handleProductCategoryChange}>
-         
+
           <option value="all" selected > All</option>
           <option value="face-moisturisers">Face Moisturisers</option>
           <option value="cleanser">Cleanser</option>
@@ -75,24 +82,26 @@ function ProductList() {
           <option value="foundation">Foundation</option>
           <option value="concealer">Concealer</option>
         </select>
-        
+
 
         <select className="select ml-3 bg-white text-black" onChange={handleProductConcernChange}>
-          
+
           <option value="all" selected> All</option>
           <option value="Acne and Blemishes">Acne and Blemishes</option>
           <option value="Uneven Skin Tone">Uneven Skin Tone</option>
           <option value="Finelines and Wrinkles">Finelines and Wrinkles</option>
           <option value="Dark circles">Dark Circles</option>
           <option value="Pore Minimizing and Blurring">Pore Minimizing and Blurring</option>
-          
+
         </select>
-     
+
       </div>
 
       {isLoading && <div className="mx-auto">Searching the products...</div>}
 
       {!isLoading && <div className="grid grid-cols-3 gap-10 justify-between">
+
+        {pagesData.length == 0 && <div className="text-gray-500">No results found!</div>}
 
         {/* {
           PRODUCTS.map((p) => {
@@ -100,7 +109,7 @@ function ProductList() {
           })
         } */}
         {
-          pagesData.length > 0 && pagesData[currentPage].map((product) => <Product 
+          pagesData.length > 0 && pagesData[currentPage].map((product) => <Product
             key={product.id}
             id={product.id}
             name={product.name}

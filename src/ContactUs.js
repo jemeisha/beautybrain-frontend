@@ -2,8 +2,7 @@ import React from "react";
 import makeup from './images/makeup.png'
 import NavBar from "./NavBar";
 import Footer from "./Footer";
-import L from 'leaflet';
-import 'leaflet/dist/leaflet.css';
+import Map from './Map';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 
@@ -25,8 +24,9 @@ const ContactUs = () => {
             <NavBar />
             <div className='flex flex-row w-full h-[40rem] overflow-hidden ' >
 
-                <div className='w-1/2 h-full' id="map">
-                    <img src={makeup}></img>
+                <div className='w-1/2 h-400px' >
+                    {/* <img src={makeup}></img> */}
+                    <Map/>
                 </div>
                 <div className='bg-black flex flex-col w-1/2 h-full' >
                     <p className="text-5xl mt-32 mb-5">Contact Us</p>
