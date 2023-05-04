@@ -142,7 +142,7 @@ function Result() {
             <NavBar />
             <Container>
                 <div>
-                    <Button onClick={() => navigate(-1)} className="bg-transparent mt-5 border-0 text-gray-800 hover:bg-transparent"> {"<<"} Back </Button>
+                    <Button onClick={() => navigate("/")} className="bg-transparent mt-5 border-0 text-gray-800 hover:bg-transparent"> {"<<"} Back </Button>
                 </div>
                 <div className="mt-10 flex flex-row w-full">
                     <div className='font-extralight text-5xl text-left text-black w-2/3' >

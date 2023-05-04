@@ -3,7 +3,8 @@ import makeup from './images/makeup.png'
 import NavBar from "./NavBar";
 import Footer from "./Footer";
 import Map from './Map';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {BsFillTelephoneForwardFill,BsFillPinMapFill} from "react-icons/bs"
+import {MdMarkEmailRead} from "react-icons/md"
 
 
 
@@ -22,31 +23,31 @@ const ContactUs = () => {
     return (
         <div>
             <NavBar />
-            <div className='flex flex-row w-full h-[40rem] overflow-hidden ' >
+            <div className='flex flex-row w-full' >
 
-                <div className='w-1/2 h-400px' >
-                    {/* <img src={makeup}></img> */}
-                    <Map/>
+                <div className='w-1/2' >
+                    <img src={makeup}></img>
+                    {/* <Map/> */}
                 </div>
                 <div className='bg-black flex flex-col w-1/2 h-full' >
                     <p className="text-5xl mt-32 mb-5">Contact Us</p>
                     <p className="text-lg">Feel free to contact us if you have any doubts.</p>
-                    <div class="left-side">
-                        <div class="address details">
-                            <i class="fas fa-map-marker-alt"></i>
+                    <div className="left-side mt-5">
+                        <div className="address details">
+                            <BsFillPinMapFill/>
                             <div className="mt-5">Address</div>
                             <div className="ml-10">BeautyBrain Ltd</div>
                             <div className="ml-10">Kelaniya.</div>
                         </div>
-                        <div class="phone details">
-                            <i class="fas fa-phone-alt"></i>
+                        <div className="phone details">
+                            <BsFillTelephoneForwardFill/>
                             <div className="">Phone</div>
                             <div className="ml-10">+94 76 562 5184</div>
                             <div className="ml-10">+94 77 789 3784</div>
                         </div>
-                        <div class="email details">
-                            <i class="fas fa-envelope"></i>
-                            <div class="topic">Email</div>
+                        <div className="email details">
+                            <MdMarkEmailRead className="text-lg"/>
+                            <div className="topic">Email</div>
                             <div className="ml-10">beautybrain2023@gmail.com</div>
                             
                         </div>
